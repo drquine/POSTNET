@@ -1,0 +1,585 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- W3C PASSED May 23, 2011 WITH counter -->
+<!-- Shawn Walch advertising October 1, 2008 for a year -->
+
+<HTML>
+<HEAD>
+<meta http-equiv="pics-label" content='(pics-1.1 "http://www.icra.org/ratingsv02.html" l gen true for "http://www.triskelion-ltd.com" r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true for "http://www.triskelion-ltd.com" r (n 0 s 0 v 0 l 0))'>
+<META http-equiv="PICS-Label" content='(PICS-1.1 "http://www.classify.org/safesurf/" l gen true for "http://www.triskelion-ltd.com/" r (SS~~000 1))'>
+<base href="http://www.triskelion-ltd.com/postnetj.html">
+<TITLE>POSTNET and PLANET Barcode Decoder in JavaScript by Douglas Boynton Quine</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" >
+<META name="description" content="POSTNET and PLANET online barcode decoding software written in JavaScript with instructions and FAQ.  Decodes United States Postal Service POSTNET (ZIP code) barcodes and PLANET (tracking) barcodes on mail pieces and reports any bar code errors.  Written by Douglas Boynton Quine.">
+<META name="keywords" content="postal, bar code, barcode, ZIP code, A field, B field, C field, DPBC, automation, sort, extended, Douglas Boynton Quine, Triskelion, United States Postal Service, POSTNET, PLANET, international POSTNET barcodes, IMB, intelligent mail barcode, USPS ">
+<meta name="no-email-collection" content="http://www.quine.org/design.php">
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27196120-1']);
+  _gaq.push(['_setDomainName', 'none']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+</HEAD>
+<BODY background="backpost.gif">
+
+<SCRIPT type="text/javascript">
+<!-- HIDE POSTNET and PLANET SCRIPT
+function makeArray(len) {
+	for (var i = 0; i < len; i++) this[i] = null;
+	this.length = len;
+}
+// end function makeArray
+
+function showStuff(form) {
+	var r  = new makeArray(20);
+	var rp = new makeArray(20);
+	var barfirst = 0;
+	var barlast = 0;
+	var bug = 0;
+	var bugp = 0;
+	var debugon = 0;
+	var good = 0;
+	var sizebad = 0;
+	var sum = 0;
+	var sump = 0;
+	var plane = 0;
+	var postn = 0;
+	var sizelength = 0;
+
+r[0] = " ";
+r[1] = " ";
+r[2] = " ";
+r[3] = " ";
+r[4] = " ";
+r[5] = " ";
+r[6] = " ";
+r[7] = " ";
+r[8] = " ";
+r[9] = " ";
+r[10] = " ";
+r[11] = " ";
+r[12] = " ";
+r[13] = " ";
+r[14] = " ";
+r[15] = " ";
+r[16] = " ";
+r[17] = " ";
+r[18] = " ";
+r[19] = " ";
+
+rp[0] = " ";
+rp[1] = " ";
+rp[2] = " ";
+rp[3] = " ";
+rp[4] = " ";
+rp[5] = " ";
+rp[6] = " ";
+rp[7] = " ";
+rp[8] = " ";
+rp[9] = " ";
+rp[10] = " ";
+rp[11] = " ";
+rp[12] = " ";
+rp[13] = " ";
+rp[14] = " ";
+rp[15] = " ";
+rp[16] = " ";
+rp[17] = " ";
+rp[18] = " ";
+rp[19] = " ";
+
+if (form.stuff.value.substring(0,1)=="1") barfirst = 1
+
+if (form.stuff.value.substring(form.stuff.value.length-1,form.stuff.value.length)=="1") barlast = 1
+
+if (debugon==1) alert("Debug 0")
+
+sizelength = form.stuff.value.length;
+
+for  (var i = 0; (sizelength >  i*5 + 6); i++) {
+		d1 = form.stuff.value.substring(1+i*5,6+i*5);
+		if      (d1=="11...")  {r[i] = "0";                postn = postn + 1;}
+		else if (d1=="...11")  {r[i] = "1"; sum = sum + 1; postn = postn + 1;}
+		else if (d1=="..1.1")  {r[i] = "2"; sum = sum + 2; postn = postn + 1;}
+		else if (d1=="..11.")  {r[i] = "3"; sum = sum + 3; postn = postn + 1;}
+		else if (d1==".1..1")  {r[i] = "4"; sum = sum + 4; postn = postn + 1;}
+		else if (d1==".1.1.")  {r[i] = "5"; sum = sum + 5; postn = postn + 1;}
+		else if (d1==".11..")  {r[i] = "6"; sum = sum + 6; postn = postn + 1;}
+		else if (d1=="1...1")  {r[i] = "7"; sum = sum + 7; postn = postn + 1;}
+		else if (d1=="1..1.")  {r[i] = "8"; sum = sum + 8; postn = postn + 1;}
+		else if (d1=="1.1..")  {r[i] = "9"; sum = sum + 9; postn = postn + 1;}
+		else  {r[i] = "*"; bug = bug+1}; 
+		if (sum > 9) {sum = sum - 10};
+		}
+
+for  (var i = 0; (sizelength >  i*5 + 6); i++) {
+		d1 = form.stuff.value.substring(1+i*5,6+i*5);
+		if      (d1=="..111")  {rp[i] = "0";                  plane = plane + 1;}
+		else if (d1=="111..")  {rp[i] = "1"; sump = sump + 1; plane = plane + 1;}
+		else if (d1=="11.1.")  {rp[i] = "2"; sump = sump + 2; plane = plane + 1;}
+		else if (d1=="11..1")  {rp[i] = "3"; sump = sump + 3; plane = plane + 1;}
+		else if (d1=="1.11.")  {rp[i] = "4"; sump = sump + 4; plane = plane + 1;}
+		else if (d1=="1.1.1")  {rp[i] = "5"; sump = sump + 5; plane = plane + 1;}
+		else if (d1=="1..11")  {rp[i] = "6"; sump = sump + 6; plane = plane + 1;}
+		else if (d1==".111.")  {rp[i] = "7"; sump = sump + 7; plane = plane + 1;}
+		else if (d1==".11.1")  {rp[i] = "8"; sump = sump + 8; plane = plane + 1;}
+		else if (d1==".1.11")  {rp[i] = "9"; sump = sump + 9; plane = plane + 1;}
+		else  {rp[i] = "*"; bugp = bugp+1}; 
+		if (sump > 9) {sump = sump - 10};
+		}
+
+if (sizelength==32) {var story = ("POSTNET 5 digit ZIP code (A field): "+r[0]+r[1]+r[2]+r[3]+r[4] + " with a checksum of " + r[5]); var storyp = ("PLANET code fragment: "+rp[0]+rp[1]+rp[2]+rp[3]+rp[4] + " with a checksum of " + rp[5]+"<HR>")}
+
+else if (sizelength==52) {var story = ("POSTNET 9 digit ZIP code (C field): "+r[0]+r[1]+r[2]+r[3]+r[4] + "-" + r[5] + r[6] + r[7] + r[8] + " with a checksum of " + r[9]); var storyp = ("PLANET code fragment: "+rp[0]+rp[1]+rp[2]+rp[3]+rp[4] + "-" + rp[5] + rp[6] + rp[7] + rp[8] + " with a checksum of " + rp[9]+"<HR>")}
+
+else if (sizelength==62 & postn!=0 & plane==0) {var story = ("POSTNET 11 digit delivery point ZIP code (C' field): "+r[0]+r[1]+r[2]+r[3]+r[4] + "-" + r[5] + r[6] + r[7] + r[8] + "-" + r[9] + r[10] +" with a checksum of " +r[11]+"<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="2" & rp[1]=="1") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (Residual Mail) - customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="0") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (Courtesy Reply Letter)- customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="1") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (Courtesy Reply Flat) - customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="2") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (Business Reply Letter) - customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="3") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (Business Reply Flat) - customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="4") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (Business Reply Card) - customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="6") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (QBRM Letter) - customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="7") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (QBRM Card) - customer ID - checksum<HR>")}
+ 
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="8") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM (Courtesy Reply Card) - customer ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="2" & rp[1]=="2") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (Residual Mail) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="0") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (First Class Letter) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="1") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (First Class Flat) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="2") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (Standard Letter) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="3") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (Standard Flat) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="4") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (Periodical Letter) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="5") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (Periodical Flat) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="6") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (First Class Card) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==62 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="7") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM (Standard Card) - subscriber ID - mailing ID - checksum<HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="2" & rp[1]=="1") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (Residual Mail) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="0") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (Courtesy Reply Letter)- customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="1") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (Courtesy Reply Flat) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="2") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (Business Reply Letter) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="3") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (Business Reply Flat) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="4") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (Business Reply Card) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="6") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (QBRM Letter) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="7") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (QBRM Card) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+ 
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="5" & rp[1]=="8") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>origin CONFIRM (Courtesy Reply Card) - customer ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="2" & rp[1]=="2") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (Residual Mail) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="3" & rp[1]=="0") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (Forwarded Mail - HYPOTHESIZED) - 11 digit destination ZIP code - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="0") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (First Class Letter) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="1") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (First Class Flat) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="2") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (Standard Letter) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="3") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (Standard Flat) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="4") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (Periodical Letter) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="5") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (Periodical Flat) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="6") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (First Class Card) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==72 & postn==0 & plane!=0 & rp[0]=="4" & rp[1]=="7") {var storyp = ("PLANET code: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+rp[11]+rp[12]+"-"+rp[13]+"<BR><BR>destination CONFIRM (Standard Card) - subscriber ID - mailing ID - checksum<BR><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><HR>")}
+
+else if (sizelength==62 & postn!=0 & plane!=0 & ((r[0]=="2" & r[1]=="1") | (r[0]=="5"))) {var story = ("Mixed POSTNET and PLANET code<BR><BR> POSTNET: "+r[0]+r[1]+ "-"+r[2]+r[3]+r[4]+r[5]+r[6]+r[7]+r[8]+r[9]+r[10]+"-"+r[11]+"<BR>origin CONFIRM - customer ID - checksum"); var storyp = ("PLANET: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>origin CONFIRM - customer ID - checksum<HR><BR>")}
+
+else if (sizelength==62 & postn!=0 & plane!=0 &  ((r[0]=="2" & r[1]=="2") | (r[0]=="4"))) {var story = ("Mixed POSTNET and PLANET code<BR><BR>POSTNET: "+r[0]+r[1]+ "-"+r[2]+r[3]+r[4]+r[5]+r[6]+"-"+r[7]+r[8]+r[9]+r[10]+"-"+r[11]+"<BR><BR>destination CONFIRM - subscriber ID - mailing ID - checksum"); var storyp = ("<BR>PLANET: "+rp[0]+rp[1]+ "-"+rp[2]+rp[3]+rp[4]+rp[5]+rp[6]+"-"+rp[7]+rp[8]+rp[9]+rp[10]+"-"+rp[11]+"<BR><BR>destination CONFIRM - subscriber ID - mailing ID - checksum<HR><BR>")}
+
+else if (sizelength==62 & postn!=0 & plane!=0) {var story = ("Mixed POSTNET and PLANET code<BR><BR>POSTNET: "+r[0]+r[1]+r[2]+r[3]+r[4]+"-"+r[5]+r[6]+r[7]+r[8]+"-"+r[9]+r[10] +" with a checksum of " +r[11]); var storyp = ("<BR>PLANET: "+rp[0]+rp[1]+rp[2]+rp[3]+rp[4]+"-"+rp[5]+rp[6]+rp[7]+rp[8]+"-"+rp[9]+rp[10] +" with a checksum of " +rp[11])+"<HR><BR>"}
+
+else if (sizelength==37) {var story = ("POSTNET +6 add on ZIP code (B field): "+r[0]+r[1]+"-"+r[2]+r[3]+r[4]+r[5] + " with a checksum of " + r[6]); var storyp = ("PLANET code fragment: "+rp[0]+rp[1]+"-"+rp[2]+rp[3]+rp[4]+rp[5] + " with a checksum of " + rp[6]+"<HR>")}
+
+else if (sizelength==47) {var story = ("POSTNET +8 add on ZIP code (B' field): "+r[0]+r[1]+"-"+r[2]+r[3]+r[4]+r[5] +"-"+r[6]+r[7]+ " with a checksum of " + r[8]); var storyp = ("PLANET code fragment: "+rp[0]+rp[1]+"-"+rp[2]+rp[3]+rp[4]+rp[5] +"-"+rp[6]+rp[7]+ " with a checksum of " + rp[8]+"<HR>")}
+
+else {var story = ("POSTNET ZIP code fragment: "+r[0]+r[1]+r[2]+r[3]+r[4] + "-" + r[5] + r[6] + r[7] + r[8] + "-" + r[9] + r[10] + "-" +r[11] + "-" +r[12]+r[13]+r[14]+r[15]+r[16]+r[17]+r[18]+r[19]); var storyp = ("PLANET code fragment: "+rp[0]+rp[1]+rp[2]+rp[3]+rp[4] + "-" + rp[5] + rp[6] + rp[7] + rp[8] + "-" + rp[9] + rp[10] + "-" +rp[11] + "-" +rp[12]+rp[13]+rp[14]+rp[15]+rp[16]+rp[17]+rp[18]+rp[19]+"<HR>")};
+
+// WRITE BARCODE RESULTS
+
+if (plane==0 & postn!=0) document.write("<HEAD><TITLE>Decoded POSTNET (ZIP) Barcode<\/TITLE><\/HEAD>");
+
+else if (plane!=0 & postn==0) document.write("<HEAD><TITLE>Decoded PLANET (tracking) Barcode<\/TITLE><\/HEAD>");
+
+else document.write("<HEAD><TITLE>Decoded POSTNET or PLANET Barcode<\/TITLE><\/HEAD>");
+
+document.write("<CENTER><H2><CITE>Internet Online POSTNET and PLANET Barcode Decoder<BR>by Douglas Boynton Quine<\/CITE><\/H2><\/CENTER><HR>")
+
+if (postn != 0) document.write("<FONT SIZE=5><CENTER>"+story+"<\/CENTER>");
+
+if (postn !=0 & plane != 0) document.write("<FONT SIZE=5><CENTER>(or)<\/CENTER>");
+
+if (plane != 0) document.write("<FONT SIZE=5><CENTER>"+storyp+"<\/CENTER>");
+
+if (barfirst==0) document.write("<FONT SIZE=4><CENTER>Barcode error: missing required tall bar at start<\/CENTER>");
+
+if (barlast==0) document.write("<FONT SIZE=4><CENTER>Barcode error: missing required tall bar at end<\/CENTER>");
+
+if (bug!=0 & postn!=0) document.write("<FONT SIZE=4><CENTER>Barcode error: "+bug+ "  bad digit(s) in POSTNET barcode flagged by '*'<\/CENTER>");
+
+if (sum!=0) document.write("<FONT SIZE=4><CENTER>Barcode error: POSTNET incorrect checksum<\/CENTER>");
+
+if ((sizelength!=32) & (sizelength!=37) & (sizelength!=47) & (sizelength!=52) & (sizelength!=62) & (sizelength!=72)) {document.write("<FONT SIZE=4><CENTER><BR>Barcode error: "+ sizelength + " is an incorrect number of bars for a POSTNET or a PLANET barcode<\/CENTER>"); sizebad = 1}
+
+if (sizebad==0 & sum==0 & bug==0 & barfirst==1 & barlast==1) good = 1
+if (sizebad==0 & sump==0 & bugp==0 & barfirst==1 & barlast==1) good = 1
+
+if (bugp!=0 & plane !=0) document.write("<FONT SIZE=4><CENTER><BR>Barcode error: "+bugp+ "  bad digit(s) in PLANET barcode flagged by '*'<\/CENTER>");
+
+if (sump!=0) document.write("<FONT SIZE=4><CENTER>Barcode error: PLANET incorrect checksum<\/CENTER>");
+
+if (good == 1 & plane!=0 & postn==0) {document.write("<FONT SIZE=6><BR><CENTER>PLANET Barcode is GOOD<\/CENTER><\/FONT SIZE=6><FONT SIZE=4>")}
+
+if (good !=1 & plane!=0 & postn==0 & sizelength==72) {document.write("<CENTER><font size=4 color=darkgreen>Extended Length PLANET barcode (USPS started April 2002) with 2 additional customer digits<\/font><\/CENTER>")}
+
+if (good == 1 & plane==0 & postn!=0) {document.write("<FONT SIZE=6><BR><CENTER>POSTNET Barcode is GOOD<\/CENTER><\/FONT SIZE=6><FONT SIZE=4>"); document.write("<HR><BR><CENTER>Find city name for this ZIP code in: <a href='http://zip4.usps.com/zip4/citytown.htm'>USPS All Cities/Towns in a ZIP code<\/A><\/CENTER><BR>")} 
+
+if (plane!=0 & postn!=0) document.write("<FONT SIZE=5><BR><CENTER>Barcode error: contains both POSTNET and PLANET elements<\/CENTER><\/FONT SIZE=5><FONT SIZE=4>");
+
+if (good != 1) {document.write("<FONT SIZE=5><CENTER>Barcode problem(s): please retype barcode (or barcode has errors)<\/CENTER><\/FONT SIZE=5><FONT SIZE=4><BR>")}
+
+document.write("<HR><BR><CENTER>Return to <a href='postnetj.html'>POSTNET and PLANET barcode decoder<\/A><\/CENTER>");
+
+document.write("<BR><CENTER>Return to <a href='index.html'>Home page<\/A><\/CENTER>");
+};
+// END HIDING POSTNET and PLANET SCRIPT -->
+</SCRIPT>
+
+
+<a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.quine.org" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.quine.org" style="border:0px;" align="left" hspace="3" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg">
+</a>
+<script type="text/javascript">
+function cantload() {
+img = document.getElementById("clustrMapsImg");
+img.onerror = null;
+img.src = "http://clustrmaps.com/images/clustrmaps-back-soon.jpg";
+document.getElementById("clustrMapsLink").href = "http://clustrmaps.com";
+}
+img = document.getElementById("clustrMapsImg");
+img.onerror = cantload;
+</script>
+
+<a href="http://www.pwmo.org/"><IMG SRC="http://www.triskelion-ltd.com/pwo-logo.gif" align=right WIDTH=103 HEIGHT=80 ALT="Philatelic"></a>
+<a href="http://www.safesurf.org/"><IMG SRC="http://www.triskelion-ltd.com/safeall.gif" height=74 width=78 ALIGN="RIGHT" alt="[SafeSurf Rated All Ages]"></a>
+
+
+<H2 align="center"><br>Internet Online POSTNET and PLANET Barcode Decoder<br><cite>by Douglas Boynton Quine</cite></H2>
+<br clear="all">
+<p style="margin-top:0px;margin-bottom:0px">
+
+POSTNET and PLANET DECODE software enables you to type in a United States Postal Service POSTNET or PLANET barcode using "1" and "." symbols and receive in response the decoded ZIP code or tracking ID.  This JavaScript decoder supports and reports the extended PLANET code with 2 added digits.  If the POSTNET or PLANET barcode is incomplete, contains a bad checksum, or contains bad digits, the program flags the errors.  A link is also provided to two online barcode decoders to decode the new USPS Intelligent Mail Barcode (IMB).  Please e-mail questions or corrections to the webmaster: <img alt="[webmaster]" align="top" height="20" width="161" src="webmaster-link.gif"></p>
+
+	<!--BEGIN Postal Ring -->
+<hr>
+<!-- <div style="float:right; font-size:0.9em; background:white; margin-top:1.5em; padding:0.5em; width:150px; border:1px solid black">If you are looking for a reliable
+<a href="http://www.barcodesinc.com/cats/barcode-scanners/">barcode reader</a> 
+or <a href="http://www.barcodesinc.com/cats/barcode-printers/">quality barcode 
+printers</a> then come to a great site that has all the
+<a href="http://www.barcodesinc.com/">barcode supplies</a> you will need.
+</div> -->
+<!-- via Shawn Walsh until 2008-09-28 annual -->
+<H3 align="center">Philatelic - Postal Automation web pages by DBQ</H3>
+<p align="center">
+<a href="http://www.triskelion-ltd.com/psa.html"><IMG SRC="http://www.triskelion-ltd.com/icpnps.gif" width=108 height=48 alt="Public Service"></a>
+<a href="http://www.quine.org/postnetj.html"><IMG SRC="http://www.triskelion-ltd.com/icynbarj.gif" width=108 height=48 alt="Online POSTNET Barcode Decoder"></a>
+<a href="http://www.triskelion-ltd.com/postman.html"><IMG SRC="http://www.triskelion-ltd.com/icpnbarm.gif" width=108 height=48 alt="POSTNET Decoder Manual"></a>
+<a href="http://www.triskelion-ltd.com/barcode404.html"><IMG SRC="http://www.triskelion-ltd.com/icpnbar404.gif" width=108 height=48 alt="POSTNET error 404"></a>
+<a href="http://www.triskelion-ltd.com/uspsglos.html"><IMG SRC="http://www.triskelion-ltd.com/icpnglos.gif" width=108 height=48 alt="USPS Glossary"></a>
+<a href="http://www.quine.org/phil-let.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphle.gif" width=108 height=48 alt="Philatelic Letters"></a>
+<a href="http://www.quine.org/phil-oth.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphot.gif" width=108 height=48 alt="Philatelic Other"></a>
+<a href="http://www.quine.org/phil-pub.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphpu.gif" width=108 height=48 alt="Philatelic Publications"></a>
+<a href="http://www.quine.org/pnc-list.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphpn.gif" width=108 height=48 alt="Plate Number Coil Exchange"></a>
+<a href="http://www.quine.org/guest.html"><IMG SRC="http://www.triskelion-ltd.com/icpningu.gif" width=108 height=48 alt="Guestbook Index"></a>
+</p>
+
+<HR>
+<H3 style="margin-bottom:0px;">Decode USPS four state Intelligent Mail Barcodes (IMB) <IMG SRC="http://www.triskelion-ltd.com/intelligent-mail-barcode2.jpg" height="20" width="285" hspace="3"ALT="[intelligent mail barcode IMB]"></H3>
+<UL style="margin-top:0px;">
+<li><a href="http://bobcodes.weebly.com/imb.html">USPS Intelligent Mail Barcode (IMB) decoder</a> by Bob Mathews
+<li><a href="http://www.quine.org/09-bob-matthews-2009-09-12-usps-imb-decode.html">USPS Intelligent Mail Barcode (IMB) decoder (old local version)</a> by Bob Mathews
+<li><a href="http://ribbs.usps.gov/onecodesolution/barcode_decoder.aspx">USPS Intelligent Mail Barcode (IMB) decoder</a> by USPS <strong><cite>[not functional as of May 18, 2011]</cite></strong>
+</UL>
+
+
+<H3 style="margin-bottom:0px;">Decode Foreign Post Barcodes</H3>
+<UL style="margin-top:0px;">
+<li><a href="http://bobcodes.weebly.com/auspost.html">Australia Post 4-State Barcode</a> by Bob Mathews
+<li><a href="http://bobcodes.weebly.com/cbc.html">Royal Mail Customer Barcode (CBC)</a> by Bob Mathews
+<li><a href="http://bobcodes.weebly.com/red-tag.html">Royal Mail RED TAG Barcode</a> by Bob Mathews
+</UL>
+
+
+
+
+<HR>
+<IMG SRC="http://www.triskelion-ltd.com/post-sw.gif" WIDTH=88 HEIGHT=84 align="left" ALT="[POSTNET barcoding software logo]">
+<p align="right"><strong>                                                                            POSTNET and PLANET Barcode Internet Online Decoder<br>
+<a href="http://www.triskelion-ltd.com/triskelion.html"><strong>Triskelion Ltd</strong></a>  (c) 1991-2013, all rights reserved<br>
+                                                                                                             Library of Congress Registration TX3061712<br>
+</strong></p>
+
+<H3 style="margin-bottom:0px;">Decode USPS POSTNET (ZIP code) <IMG SRC="http://www.triskelion-ltd.com/postnet.gif" height=16 width=280 hspace="3"ALT="[POSTNET barcode]"><br>
+and PLANET (tracking) <IMG SRC="http://www.triskelion-ltd.com/planet-code3.gif" height=17 width=277 align="middle" hspace="3" ALT="[PLANET barcode]"> barcodes.</H3>
+
+<ul style="margin-top:0px;">
+<li>Type the POSTNET or PLANET barcode into the box below using number "1" for tall bars and period "." for short bars (for example: 1..1.1..1.111.....1.1..1.1..1.11)
+<li>Press the "Decode Barcode" button when the barcode is entered.</li>
+<li>If you make an error while typing the barcode, "backspace", and retype the incorrect characters.</li>
+<li>POSTNET or PLANET barcode will be decoded.</li>
+<li>POSTNET or PLANET barcode type will be reported (types described below)</li>
+<li>Partial barcodes, checksum errors, digit errors, missing start or end bars will be reported.</li>
+<li>Find POSTNET barcode specification in the USPS DMM C840 <a href="http://www.triskelion-ltd.com/po-c840.pdf">POSTNET barcoding standards for letters and flats</a></li>
+<li>Find ZIP code for a city at: <a href="http://www.usps.com/zip4/citytown_zip.htm">USPS City State / ZIP Code Associations</a></li>
+<li>Find city name for a ZIP code at: <a href='http://zip4.usps.com/zip4/citytown.htm'>USPS All Cities/Towns in a ZIP code</a></li>
+
+<li> Decode USPS POSTNET / PLANET Barcode: <FORM NAME = "simple" action="javascript:alert('please click on: Decode Barcode button')" method="get">
+<p align="center"><INPUT TYPE = TEXT NAME = "stuff" SIZE = "70">
+<INPUT TYPE = BUTTON VALUE = "Decode Barcode" onClick = "showStuff(this.form);">
+</p></FORM>
+
+
+
+
+
+
+<SCRIPT type="text/javascript">
+bName = navigator.appName;
+bCode = navigator.appCodeName;
+bFullVer = navigator.appVersion;
+bNetVer = navigator.appVersion.substring(0,4)
+bIEVer = navigator.appVersion.substring(22,26)
+bTotal = "Enter the POSTNET or PLANET barcode in the box above and click the 'Decode Barcode' button<BR>to decode on-line with your "+bCode+" "+bFullVer+" browser.";
+document.write("<CENTER><CITE>"+bTotal+"<\/CITE><\/CENTER>");
+</SCRIPT>
+
+
+
+
+<NOSCRIPT>
+<p align="center"><CITE>Your browser appears not to support JavaScript<BR>(If the data entry box on the line above is missing or the "decode barcode" button<BR> does not provide a ZIP code response then go to my <a href="postnet.html">POSTNET decoder</a> without JavaScript)</CITE></p>
+</NOSCRIPT>
+
+<HR>
+<p style="margin-bottom:0px;">POSTNET or PLANET barcode types are:</p>
+<PRE  style="margin-top:0px;">
+    POSTNET (ZIP code)
+       A  Field"   5 digit ZIP (e.g. 12345)
+       C  Field"   9 digit ZIP (e.g. 12345-6789)
+       C' Field"  11 digit ZIP (e.g. 12345-6789-01)
+       B  Field" adds 6 digits (e.g.    45-6789)   (makes 9 digit ZIP)
+       B' Field" adds 8 digits (e.g.    45-6789-01)(makes 11 digit ZIP)
+    PLANET (tracking barcode)
+       origin confirm barcode with customer ID (e.g. 21-123456789-2)
+             service 21 = residual mail
+             service 50 = courtesy reply letters
+             service 51 = courtesy reply flats
+             service 52 = business reply letters
+             service 53 = business reply flats
+             service 54 = business reply cards
+             service 56 = QBRM letters
+             service 57 = QBRM cards
+             service 58 = courtesy reply cards
+       destination confirm barcode with subscriber and mailing ID (e.g. 22-12345-6789-2)
+             service 22 = residual mail
+             <font color=red><strong>service 30 = ? computerized forwarding system code for forwarded mail (followed by destination ZIP code) one observation by Terry Hines in Jan. 2013 - please report any others</strong></font>
+             service 40 = first class letters
+             service 41 = first class flats
+             service 42 = standard letters
+             service 43 = standard flats
+             service 44 = periodical letters
+             service 45 = periodical flats
+             service 46 = first class cards
+             service 47 = standard cards</PRE>
+</li></ul>
+<HR>
+
+<h3>Ordering options for POSTNET Barcode Decoder <strong>Classic</strong><BR>(stand alone executable version for your personal computer):</h3>
+<blockquote>
+
+<ul>
+<li><form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="maps262&#64;quine&#46;org">
+<input type="hidden" name="no_shipping" value="0">
+<input type="hidden" name="no_note" value="0">
+<input type="hidden" name="item_name" value="POSTNET Barcode Decoder Classic software">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="amount" value="15.00">
+<input type="hidden" name="on0" value="Delivery?">select <U>delivery option</U> and then click <U>PayPal Buy button</U>
+
+<select name="os0">
+<option value="post">POST: delivery to mailing address
+<option value="electronic">EMAIL: delivery to email address
+</select>
+<!-- input type="image" src="http://www.triskelion-ltd.com/paypal-x-click-but1.gif" align="middle"  name="submit" alt="Buy POSTNET software through PayPal - it is fast and secure!"-->
+
+<center>(or)</center>
+</form>
+</li>
+<li>send check / money order for fifteen dollars ($15) and your mailing address to:<BR>
+<a href="http://www.triskelion-ltd.com/triskelion.html">Triskelion Ltd.</a>,  PO Box 153,  Bethel CT 06801-0153</li>
+</ul>
+
+<p>The POSTNET decoder software and POSTNETB barcode debug software with an informational sheet about the USPS POSTNET barcode will be shipped to you by <strong>by email</strong> (ZIP file).</p>
+<p align="center"><IMG SRC="http://www.triskelion-ltd.com/postnet.gif" height="16" width="280" alt="POSTNET barcode"></p>
+</blockquote>
+<HR>
+
+<h3><font color="purple"><strong>Ordering options for POSTNET / PLANET Barcode Decoder PREMIUM</strong></font><BR>(stand alone debugger version for your personal computer):</h3>
+<blockquote>
+<ul>
+<li><form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+<input type="hidden" name="cmd" value="_xclick">
+<input type="hidden" name="business" value="maps262&#64;quine&#46;org">
+<input type="hidden" name="no_shipping" value="0">
+<input type="hidden" name="no_note" value="0">
+<input type="hidden" name="item_name" value="POSTNET / PLANET Barcode Decoder PREMIUM software">
+<input type="hidden" name="currency_code" value="USD">
+<input type="hidden" name="amount" value="25.00">
+<input type="hidden" name="on0" value="Delivery?">select <U>delivery option</U> and then click <U>PayPal Buy button</U>
+
+<select name="os0">
+<option value="post">POST: delivery to mailing address
+<option value="electronic">EMAIL: delivery to email address
+</select>
+<input type="image" src="http://www.triskelion-ltd.com/paypal-x-click-but5.gif" align="middle"  name="submit" alt="Buy POSTNET software through PayPal - it is fast and secure!">
+
+<p align="center">(or)</p>
+</form>
+</li>
+<li>send check / money order for twenty five dollars ($25) and your mailing address to:<BR>
+<a href="http://www.triskelion-ltd.com/triskelion.html">Triskelion Ltd.</a>,  PO Box 153,  Bethel CT 06801-0153</li>
+</ul>
+
+<p>The POSTNET decoder software and POSTNETB barcode debug software with <u>a stand alone web browser POSTNET / PLANET code decoder</u>, and an informational sheet about the USPS POSTNET barcode will be shipped to you by <strong>first class mail</strong> (floppy disk) OR <strong>by email</strong> (ZIP file).</p>
+
+<p><IMG SRC="http://www.triskelion-ltd.com/planet-code3.gif" height=17 width=277 align=right ALT="[PLANET barcode]">
+<IMG SRC="http://www.triskelion-ltd.com/postnet.gif" height=16 width=280 ALT="[POSTNET barcode]"></p>
+</blockquote>
+
+<HR>
+<H3>FAQ - Frequently Asked Questions</H3>
+<ul>
+<li><H4> POSTNET barcodes are overwhelming, can you help me?</h4>
+<p><a href="http://www.triskelion-ltd.com/barcode404.html">barcode404.html</a></p>
+
+<li><h4> Will the POSTNET DECODE program decode the new four state (full/descending/ascending/track) USPS Intelligent Mail Barcodes (IMB)?</h4>
+<p>No, however the <a href="http://ribbs.usps.gov/onecodesolution/barcode_decoder.aspx">USPS online IMB decoder</a> can do so.</p>
+
+<li><H4> I am looking for a POSTNET bar code font to barcode my mail and obtain postal discounts</H4>
+<p>The WORD word processor from MICROSOFT (check under "Envelopes" options) and many other programs (such as: My Advanced Mailing List available at Office Superstores and Postalsoft "Address Dictionary" from 1-800-831-6245) will create POSTNET barcodes to go with addresses on envelopes.  Such programs, however, do not meet United States Postal Service (USPS) CASS certification regulations unless the ZIP codes have been confirmed against a licensed database within the last 6 months.  Some vendors offer subscription services to provide the mandatory regular updates to maintain certification.  In short getting the font to print the barcodes can be achieved through several routes but the USPS won't give you a discount.  Naturally the postal service's concern is that wrong barcodes are worse than none because they misdirect the mail.  Perhaps the <STRONG>United States Postal Service</STRONG> publication <CITE>Mailer's Companion</CITE> shows this question best. <a href="http://www.triskelion-ltd.com/goodbar.gif">goodbar.gif</a></p>
+
+<li><H4>What software is USPS CASS certified to barcode my mail and obtain postal discounts?</H4>
+<p>1/ PITNEY BOWES Shipping  &amp;  Weighing: "SmartMailer" through  1-800-MR-BOWES (needs annual subscription)</p>
+<p>2/ POSTALSOFT: "DeskTop Postal Code" through 800-831-6245 (needs annual subscription)</p>
+<p>3/ MySoftware Co: "My Advanced Mailing List" through office superstores  (needs annual subscription)</p>
+
+<li><H4> National Address Server: <a href="http://www.cedar.buffalo.edu/adserv.html">http://www.cedar.buffalo.edu/adserv.html</a></H4> 
+<p>Given a valid U.S. postal address, this server attempts to rewrite the address in the proper
+format along with the ZIP+4 code. If it is successful, you can retrieve a Postscript or a GIF file
+of the address for printing, with a barcode! You can also view a street map of the address, from
+2 different Internet map sites (MapBlast and MapQuest).</p>
+
+<li><H4>List of <a href="phil-pub.html">USPS POSTNET Barcodes for International Mail</a> by Douglas Boynton Quine</H4>
+
+<li><H4>What Does the USPS Charge for PLANET/CONFIRM Code Tracking / Tracing?</H4>
+<p>The PLANET code program has been operated as a no charge pilot program but it is moving towards a paid service.  The "POSTCOM Bulletin" (April 26, 2002 page 6) reports the following three tier pricing structure was filed as a rate case by the USPS on April 24, 2002.  (The average mail piece is scanned 3 times on the journey through the USPS.)</p>
+
+<OL><li>Silver: 3 month subscription, 1 mailing ID code, 15 million scans, $2,000 (additional ID mailing codes are $500 each; additional 2 million scans are $500)
+<li>Gold: 1 year subscription, 1 mailing ID code, 50 million scans, $4,500 (additional ID mailing codes are $2,000 each; additional 6 million scans are $750)
+<li>Platinum: 1 year subscription, 3 mailing ID codes, unlimited scans, $10,000 (additional ID mailing codes are $2,000 each)
+</OL></ul>
+
+<hr>
+<H3>More Barcode Information</H3>
+<ul>
+<li><H4>POSTNET barcode readers</H4>
+<p>I currently know of no source for handheld automatic POSTNET barcode readers.  Please email the webmaster: <img alt="[webmaster]" align="middle" height="20" width="161" src="webmaster-link.gif"> if you find one.  High end POSTNET readers and mail processing sorters are available from a variety of vendors including Pitney Bowes, Lockheed Martin, and Siemens.</p>
+<li><H4> Barcodes, Barcodes, Barcodes: <a href="http://highrocks.com/barcode/">http://highrocks.com/barcode/</a></H4> 
+<p>Links to everything barcode- Scanners, Software, Labels, Consulting, Printers, articles, trade associations, and more.</p>
+<li><H4>Symbol Technologies: <a href="http://www.symbol.com/">http://www.symbol.com/</a></H4> 
+<p>Symbol Technologies web site describes their history and role in Information Technology; the market for Bar Code-Based Systems; their products; PDF417: Symbol's Transformational Technology; manufacturing, sales and support; international reach; and financials.</p>
+<li><H4>Omniplanar Inc: <a href="http://www.omniplanar.com/">http://www.omniplanar.com/</a></H4> 
+<p>Omniplanar, incorporated in 1989, develops advanced sensors and computer hardware and software technology for image processing and related applications.  Omniplanar is the only supplier of a complete package of barcode reading software for 2 dimensional CCD hand held readers.  SwiftDecoder reads PDF417, MaxiCode, and DataMatrix along with all popular linear symbologies.  The Omniplanar web site describes their history and Minicode, VirtualTracker, and SwiftDecode products.</p>
+<li><H4>IDautomation.com, Inc: <a href="http://www.idautomation.com/">http://www.idautomation.com/</a></H4> 
+<p>IDautomation.com, Inc. is a Developer of PostNet and Planet Barcode Fonts, ActiveX Controls and JavaBeans for business applications.</p>
+</ul>
+<BR>
+<HR>
+<IMG SRC="http://www.triskelion-ltd.com/toonb048.gif" WIDTH=432 HEIGHT=320 ALIGN="RIGHT" ALT="[E-Mail Cartoon]">
+<H3>Feedback</H3>
+<ul>
+<li> Sign into (email) the guestbook: <img alt="[guestbook]" align="middle" height="21" width="123" src="guest-link.gif"> to post your comments or questions
+<li> View <a href="http://www.quine.org/guestdbq.html">Douglas Boynton Quine Guest book</a>
+<li> View <a href="http://www.triskelion-ltd.com/guestbea.html">Beatles Guest book</a>
+<li> View <a href="http://www.quine.org/guestboy.html">Boynton Family Guest book</a>
+<li> View <a href="http://www.quine.org/guestqui.html">Quine Family Guest book</a>
+<li> View <a href="http://www.wvquine.org/guestwvq.html">W V Quine Guest book</a>
+<li> Return to <a href="index.html">Home Page</a>
+<li> Go to <a href="postman.html">POSTNET information page</a>
+<li> Go to <a href="postnet.html">POSTNET decoder without JavaScript</a>
+<li> E-mail the webmaster: <img alt="[webmaster]" align="middle" height="20" width="161" src="webmaster-link.gif"></li>
+<li><FORM ACTION="http://search.freefind.com/find.html"
+METHOD="GET" target="_self">
+<a href="http://www.freefind.com">FreeFind</a> powered <a href="http://search.freefind.com/find.html?id=8961484">SEARCH</a> for specific words in the QUINE, WVQUINE, and TRISKELION-LTD web pages
+<input type="hidden" name="id" value="8961484">
+<input type="hidden" name="pid" value="r">
+<input type="hidden" name="mode" value="all"> 
+<input type="hidden" name="n" value="0">
+<input type="text" name="query" size="20">
+<input type="submit" value=" Find! "><input type="SUBMIT" name="sitemap" value="Site Map">
+</FORM>
+<br><br>
+<center>
+<script type="text/javascript" src="http://feedjit.com/serve/?bc=FFFFFF&amp;tc=494949&amp;brd1=336699&amp;lnk=494949&amp;hc=336699&amp;ww=690"></script><noscript><a href="http://feedjit.com/">Feedjit Live Blog Stats</a></noscript>
+
+
+<a href="http://cgi6.ebay.com/ws/eBayISAPI.dll?ViewSellersOtherItems&amp;since=-1&amp;userid=drquine&amp;rows=25&amp;sort=3&amp;include=0&amp;rd=1"><img src="http://www.quine.org/dbq.jpg" border="1" align="left" alt="no DBQ auctions"></a>
+
+<a href="http://www.ebay.com/"><IMG SRC="http://www.triskelion-ltd.com/ebay-all.jpg" border="1" align="right" alt="eBay.com"></a>
+
+Your visit makes more than <img src="http://www.triskelion-ltd.com/cgi-sys/Count.cgi?df=postnetj.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> to this web page since December 27, 2002 (last updated March 16, 2013).<br>
+Copyright (c) 1991-2017 by Douglas B. Quine</center>
+
+</ul>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- W3C PASSED May 30, 2005 WITH counter -->
+<html>
+<head>
+<meta http-equiv="pics-label" content='(pics-1.1 "http://www.icra.org/ratingsv02.html" l gen true for "http://www.triskelion-ltd.com" r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true for "http://www.triskelion-ltd.com" r (n 0 s 0 v 0 l 0))'>
+<META http-equiv="PICS-Label" content='(PICS-1.1 "http://www.classify.org/safesurf/" l gen true for "http://www.triskelion-ltd.com/" r (SS~~000 1))'>
+<base href="http://www.triskelion-ltd.com/postman.html">
+<TITLE>POSTNET Barcode Decode Manual and Instructions by Douglas Boynton Quine - </TITLE>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" >
+<META name="description" content="POSTNET barcode decoding software instructions to decode United States Postal Service ZIP code barcodes on mail pieces and report any barcode errors.  Links are provided to other Postal and Philatelic Web Sites by Douglas Boynton Quine.">
+<META name="keywords" content="manual, instructions, postal, barcode, ZIP code, A field, B field, C field, DPBC, automation, sort, Douglas Boynton Quine, Triskelion, United States Postal Service, USPS ">
+
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27196120-1']);
+  _gaq.push(['_setDomainName', 'none']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+</head>
+<BODY background="backpost.gif">
+
+<a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.quine.org" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.quine.org" style="border:0px;" align="left" hspace="3" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" />
+</a>
+<script type="text/javascript">
+function cantload() {
+img = document.getElementById("clustrMapsImg");
+img.onerror = null;
+img.src = "http://clustrmaps.com/images/clustrmaps-back-soon.jpg";
+document.getElementById("clustrMapsLink").href = "http://clustrmaps.com";
+}
+img = document.getElementById("clustrMapsImg");
+img.onerror = cantload;
+</script>
+
+<a href="http://www.safesurf.org/"><IMG SRC="http://www.triskelion-ltd.com/safeall.gif" height=74 width=78 ALIGN="RIGHT" alt="[SafeSurf Rated All Ages]"></a>
+
+
+<h2 align="center"><br />POSTNET Barcode Decode<br />Manual and Instructions</h2>
+<br clear="all" />
+<A HREF="http://www.icra.org/"><IMG SRC="http://www.quine.org/us_aw_88x31.gif" height="31" width="88" align="right" alt="[ICRA Rated All Ages]"></A>
+<P style="margin-top:0px;margin-bottom:0px">POSTNET_DECODE software enables you to type in a United States Postal Service POSTNET barcode using "1" and "." symbols 
+and receive in response the decoded ZIP code.  If the POSTNET barcode contains formatting errors, the program displays 
+these errors.  The installation instructions, user manual, and and barcode explanations for A Field, B Field, B' Field, 
+C field, C' Field, 5 digit, 9 digit, and 11 digit barcodes are shown below.  Sign into (email) the guestbook: <img alt="[guestbook]" align="top" height="21" width="123" src="guest-link.gif"> to post your comments &amp; questions
+or e-mail corrections to the webmaster: <img alt="[webmaster]" align="top" height="20" width="161" src="webmaster-link.gif"></P>
+
+
+	<!--BEGIN Postal Ring -->
+<hr />
+<h2 align="center"><A HREF="http://www.pwmo.org/"><img src="http://www.triskelion-ltd.com/pwo-logo.gif" align=right WIDTH="103" HEIGHT="80" alt="Philatelic"></a>Philatelic - Postal Automation web pages by DBQ</h2>
+<p align="center"><A HREF="http://www.triskelion-ltd.com/psa.html"><IMG SRC="http://www.triskelion-ltd.com/icpnps.gif" width=108 height=48 alt="Public Service"></a>
+<A HREF="http://www.quine.org/postnetj.html"><IMG SRC="http://www.triskelion-ltd.com/icpnbarj.gif" width=108 height=48 alt="Online POSTNET Barcode Decoder"></a>
+<A HREF="http://www.triskelion-ltd.com/postnet.html"><IMG SRC="http://www.triskelion-ltd.com/icpnbar.gif" width=108 height=48 alt="POSTNET"></a>
+<A HREF="http://www.triskelion-ltd.com/postman.html"><IMG SRC="http://www.triskelion-ltd.com/icynbarm.gif" width=108 height=48 alt="POSTNET Decoder Manual"></a>
+<A HREF="http://www.triskelion-ltd.com/barcode404.html"><IMG SRC="http://www.triskelion-ltd.com/icpnbar404.gif" width=108 height=48 alt="POSTNET error 404"></a>
+<A HREF="http://www.triskelion-ltd.com/uspsglos.html"><IMG SRC="http://www.triskelion-ltd.com/icpnglos.gif" width=108 height=48 alt="USPS Glossary"></a>
+<A HREF="http://www.quine.org/phil-let.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphle.gif" width=108 height=48 alt="Philatelic Letters"></a>
+<A HREF="http://www.quine.org/phil-oth.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphot.gif" width=108 height=48 alt="Philatelic Other"></a>
+<A HREF="http://www.quine.org/phil-pub.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphpu.gif" width=108 height=48 alt="Philatelic Publications"></a>
+<A HREF="http://www.quine.org/pnc-list.html"><IMG SRC="http://www.triskelion-ltd.com/icpnphpn.gif" width=108 height=48 alt="Plate Number Coil Exchange"></a>
+<A HREF="http://www.quine.org/guest.html"><IMG SRC="http://www.triskelion-ltd.com/icpningu.gif" width=108 height=48 alt="Guestbook Index"></a>
+</p>
+
+<hr />	
+<h2 align="center">eBay.com Auctions<a href="http://www.ebay.com">
+<img src="http://pics.ebay.com/aw/pics/ebay_my_button.gif" alt="eBay"></a></h2>
+<p align="center"><a href="http://cgi6.ebay.com/ws/eBayISAPI.dll?ViewSellersOtherItems&amp;since=-1&amp;userid=drquine&amp;rows=25&amp;sort=3&amp;include=0&amp;rd=1"><img src="http://www.quine.org/dbq.jpg" align="middle" alt="yes DBQ auctions">DBQ auctions</a>
+<A HREF="http://www.ebay.com/"><IMG SRC="http://www.quine.org/ebay-all.jpg" alt="eBay.com">eBay.com</a></p>
+
+<hr />
+<h2 align="center">POSTNET Barcode Decoder Manual by Douglas Boynton Quine</h2>
+<p align="center"><IMG SRC="http://www.quine.org/triskba2.gif" ALT="[Triskelion Logo]"></p>
+<h3 align="center"><strong>POSTNET Decoding Software</strong><br />
+<strong>for</strong><br />
+<strong>IBM &amp; Macintosh Computers</strong><br />
+<strong>Manual and Instructions</strong></h3>
+<cite>by Douglas B. Quine, Ph.D.</cite>
+<HR>
+<h3>USPS POSTNET CODE DESCRIPTION</h3>
+<p>USPS POSTNET barcodes encode address ZIP codes on mail for automated mail processing.  Business reply barcodes are preprinted by mailers; others are applied by the USPS, by mailers, or by presort bureaus.</p>
+<p>POSTNET codes must conform to USPS standards which are described in the Domestic Mail Manual.  The barcodes must have tall bars in the first and last positions, they must have a checksum which when added to the other digits of the ZIP code totals a multiple of ten, and each digit of the ZIP code must consist of 2 tall and 3 short bars according to this scheme (where "1" is a tall bar and "." a short one):</p>
+<center><pre>
+Digit   Code        Digit   Code
+  1    ...11          2    ..1.1
+  3    ..11.          4    .1..1
+  5    .1.1.          6    .11..
+  7    1...1          8    1..1.
+  9    1.1..          0    11...
+</pre></center>
+<p>Several different barcode lengths (field types) exist to encode different types of ZIP code information.  They are illustrated on the back cover of this folder.</p>
+<hr>
+<h3>PROGRAM INSTALLATION</h3>
+<p>IBM Hard Disk Systems: Insert the POSTNET disk in your disk drive and close the door.  The POSTNET programs are permanently installed on your hard disk by copying them from the floppy to the hard drive: COPY  A:*.*   C:</p>
+<p>IBM Floppy Disk Systems:  Insert the POSTNET disk in your disk drive and close the door.  This must be done every time you run the programs.</p>
+<p>Macintosh Hard Disk Systems: Insert the POSTNET disk in your disk drive and drag the programs from the floppy disk to the hard disk.</p>
+<p>Macintosh Floppy Disk Systems:  Insert the POSTNET disk in your disk drive every time you run the programs.</p>
+<HR>
+<h3>PROGRAM OPERATION</h3>
+<p><strong>IBM System Startup</strong>: Type the program name (<strong>POSTNET</strong> or <strong>POSTNETB</strong>) and then press RETURN to start .</p>
+<p><strong>Macintosh System Startup</strong>: Double click on the program name or icon (<strong>POSTNET-decode</strong> or <strong>POSTNET-debug</strong>) to start.</p>
+<p><strong>ALL systems</strong>: The instructions are summarized upon the screen.  Type the number one "1" for each tall bar and a period "." for each short bar to enter the barcode.  Each field is entered separately (A, B, B', C, or C' field).  The decoded barcode and barcode type are then reported and another barcode can be entered.  Press return twice to exit the program.</p>
+<p>Debug versions (<strong>POSTNETB/ POSTNET-debug</strong>) also report solutions as the bars are shifted right one by one.  This helps diagnose barcode reader errors.</p>
+<HR>
+<h3>ERROR MESSAGE EXPLANATIONS</h3>
+<p>If the program reports an error, reenter the barcode to be sure that a data entry error was not the cause of the message.  Human errors are more common than POSTNET barcode errors!  When barcodes are the wrong length, when they are missing start or stop bars, or when the checksum is incorrect, you may be attempting to decode a fragment of a longer barcode.</p>
+<p>The debug versions are helpful in decoding barcode fragments since they decode the barcode and then attempt again with the view shifted right one bar at a time until each of the 5 cluster positions has been tested.  Sometimes a barcode fragment lacking some initial bars can be read this way.</p>
+
+<p>ERROR: ___ bars at digit ____ [POSTNET codes should have 2 tall bars in each cluster of 5]</p>
+<p>ERROR: Checksum ___ is not modulo 10 [the digits in all POSTNET codes add to a multiple of 10]</p>
+<p>ERROR: First bar is short [POSTNET codes should start with a tall bar]</p>
+<p>ERROR: Last bar is short [POSTNET codes should end with a tall bar]</p>
+<p>ERROR: Position ___ decodes as ___ [POSTNET only encodes the digits 0 to 9; use of improper bar patterns may cause reports of decode errors which are shown as "*" in the ZIP code report]</p>
+<p>PARSE: Nonstandard barcode of length ___ [partial POSTNET codes are flagged by this message]</p>
+<p>ZIP FRAGMENT: ___ [digits decoded from partial]</p>
+<HR>
+
+<h3>SAMPLE ZIP CODE FIELD TYPES</h3>
+
+<P>The ZIP code 12345-6789-47 is shown in each of the field types which represent different portions of the ZIP code.  The checksum is always reported within ( ) and the barcode is decoded beneath.  These samples can be used to practice decoding POSTNET barcodes using this software.</p>
+
+<p align="center"><IMG SRC="http://www.quine.org/fields.gif" ALT="[POSTNET Barcodes]"></p>
+<hr />
+<h3>PROGRAM AVAILABILITY</h3>
+<pre>
+IBM (and compatible) Computer Versions
+	POSTNET:	Standard program
+	POSTNETB:	Bit shift debug version
+Macintosh Computer Versions
+	POSTNET-Decode:	Standard program
+	POSTNET-Debug:	Bit shift debug version
+Formats <strong> please identify which one is required</strong>:
+	3.5" diskettes (IBM)
+	3.5" diskettes (Macintosh)
+</pre>
+<HR>
+<h3>To order please send $15, computer type, and address to:</h3>
+<strong>Douglas B. Quine
+<br><A HREF="http://www.triskelion-ltd.com/triskelion.html">Triskelion Ltd.</A>
+<br>PO Box 153
+<br>Bethel  CT  06801-0153
+</strong>
+<p>Individual use licenses and institutional use licenses for the POSTNET, POSTNETB, POSTNET-decode, &amp; POSTNET-debug software programs are available from <A HREF="http://www.triskelion-ltd.com/triskelion.html">Triskelion Ltd.</A></p>
+<HR>
+<h4>Legal Notices (the fine print)</h4>
+<p><small>The contents of this brochure and <A HREF="http://www.triskelion-ltd.com/triskelion.html">Triskelion Ltd.</A> software for decoding POSTNET barcodes are copyright (c) by <A HREF="http://www.triskelion-ltd.com/triskelion.html">Triskelion Ltd.</A>, 1991-2004.  Duplication of this software (except for backup purposes) is illegal.  POSTNET, USPS, and ZIP are registered trademarks of the United States Postal Service.  Macintosh is a registered trademark of Apple Computer, Inc.  IBM is a registered trademark of International Business Machines</small></p>
+<BR>
+<HR>
+<IMG SRC="http://www.quine.org/toonb048.gif" width="432" height="320" align="right" alt="[E-Mail Cartoon]">
+<h2>Feedback</h2>
+<UL>
+<LI>Sign into (email) the guestbook: <img alt="[guestbook]" align="middle" height="21" width="123" src="guest-link.gif"> to post your comments or questions
+<LI> View <A HREF="http://www.quine.org/guestdbq.html">Douglas Boynton Quine Guest book</A>
+<LI> View <A HREF="http://www.triskelion-ltd.com/guestbea.html">Beatles Guest book</A>
+<LI> View <A HREF="http://www.quine.org/guestboy.html">Boynton Family Guest book</A>
+<LI> View <A HREF="http://www.quine.org/guestqui.html">Quine Family Guest book</A>
+<LI> View <A HREF="http://www.wvquine.org/guestwvq.html">W V Quine Guest book</A>
+<LI> Return to <A HREF="http://www.quine.org/">Douglas Boynton Quine Home Page</A>
+<LI> Go to my <A HREF="postnetj.html">POSTNET Online barcode decoder</A>
+<LI> Go to my <A HREF="postnet.html">POSTNET barcode decoder</A>
+<LI> E-mail the webmaster: <img alt="[webmaster]" align="middle" height="20" width="161" src="webmaster-link.gif"></li>
+<li><FORM ACTION="http://search.freefind.com/find.html"
+METHOD="GET" target="_self">
+<A HREF="http://www.freefind.com">FreeFind</A> powered <A HREF="http://search.freefind.com/find.html?id=8961484">SEARCH</A> for specific words in the QUINE, WVQUINE, and TRISKELION-LTD web pages
+<INPUT TYPE="HIDDEN" NAME="id" VALUE="8961484">
+<INPUT TYPE="HIDDEN" NAME="pid" VALUE="r">
+<INPUT TYPE="HIDDEN" NAME="mode" VALUE="ALL"> 
+<INPUT type="HIDDEN" name="n" value="0">
+<INPUT TYPE="TEXT" NAME="query" SIZE="20">
+<INPUT TYPE="SUBMIT" VALUE=" Find! "><input type="SUBMIT"
+name="sitemap" value="Site Map">
+</form>
+<BR><BR>
+<center>
+
+<script type="text/javascript" src="http://feedjit.com/serve/?bc=FFFFFF&amp;tc=494949&amp;brd1=336699&amp;lnk=494949&amp;hc=336699&amp;ww=690"></script><noscript><a href="http://feedjit.com/">Feedjit Live Blog Stats</a></noscript>
+<br><br>
+
+
+
+<center>Your visit makes more than <img src="http://www.triskelion-ltd.com/cgi-sys/Count.cgi?df=postman.dat|display=Counter|ft=6|md=5|frgb=100;139;216|dd=B"> to this web page since December 27, 2002 (last updated January 12, 2013).<br>
+Copyright (c) 2002-2017 by Douglas B. Quine</center>
+
+
+<a href="http://validator.w3.org/check/referer"><img border="0" src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01!" align="left" height="31" width="88"></a>
+<a href="http://www.projecthoneypot.org/?rf=21823"> <img src="project_honey_pot_button.gif" height="31px" width="88px" align="right" border="0" alt="Stop Spam Harvesters, Join Project Honey Pot"></center></a>
+
+</ul>
+</BODY>
+</HTML>
